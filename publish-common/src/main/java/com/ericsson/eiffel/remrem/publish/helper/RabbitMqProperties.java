@@ -326,7 +326,10 @@ public class RabbitMqProperties {
         
         if (waitForConfirmsTimeOut == null ) {
             waitForConfirmsTimeOut = Long.getLong(getValuesFromSystemProperties(protocol + ".rabbitmq.waitForConfirmsTimeOut"));
+            log.info("wait for confirms timeout value ::"+waitForConfirmsTimeOut);
+           
         }
+        log.info("wait for confirms timeout value :"+waitForConfirmsTimeOut);
     }
     
 
@@ -501,6 +504,7 @@ public class RabbitMqProperties {
             if (waitForConfirmsTimeOut == null || waitForConfirmsTimeOut == 0) {
                 waitForConfirmsTimeOut = DEFAULT_WAIT_FOR_CONFIRMS_TIMEOUT;
             }
+            log.info("wait for confirms timeout value :"+waitForConfirmsTimeOut);
             channel.waitForConfirmsOrDie(waitForConfirmsTimeOut);
         } catch (InterruptedException | IOException e) {
             log.error("Failed to publish message due to " + e.getMessage());

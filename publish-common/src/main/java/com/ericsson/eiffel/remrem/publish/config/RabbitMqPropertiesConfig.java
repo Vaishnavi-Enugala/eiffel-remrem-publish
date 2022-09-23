@@ -115,14 +115,11 @@ public class RabbitMqPropertiesConfig {
                 rabbitMqProperties.setCreateExchangeIfNotExisting(rabbitmqInstanceObject.get("createExchangeIfNotExisting").asBoolean());
                 rabbitMqProperties.setDomainId(rabbitmqInstanceObject.get("domainId").asText());
                 if((rabbitmqInstanceObject.get("channelsCount") != null) ) {
-                    rabbitMqProperties.setChannelsCount(
-                            Integer.getInteger(rabbitmqInstanceObject.get("channelsCount").asText(),
-                                    RabbitMqProperties.DEFAULT_CHANNEL_COUNT));
+                    rabbitMqProperties.setChannelsCount(Integer.parseInt(rabbitmqInstanceObject.get("channelsCount").asText()));
                 }
                 if((rabbitmqInstanceObject.get("waitForConfirmsTimeOut") != null) ) {
-                    rabbitMqProperties.setWaitForConfirmsTimeOut(Long.getLong(
-                            rabbitmqInstanceObject.get("waitForConfirmsTimeOut").asText(),
-                            RabbitMqProperties.DEFAULT_WAIT_FOR_CONFIRMS_TIMEOUT));
+                    rabbitMqProperties.setWaitForConfirmsTimeOut(parseLong(
+                            rabbitmqInstanceObject.get("waitForConfirmsTimeOut").asText(),RabbitMqProperties.DEFAULT_WAIT_FOR_CONFIRMS_TIMEOUT));
                 }
                 if ((rabbitmqInstanceObject.get("tcpTimeOut") != null)) {
                     rabbitMqProperties.setTcpTimeOut(Integer.getInteger(rabbitmqInstanceObject.get("tcpTimeOut").asText(),
@@ -134,6 +131,26 @@ public class RabbitMqPropertiesConfig {
             log.error("Failure when initiating RabbitMq Java Spring properties: " + e.getMessage(), e);
         }
     }
+    
+
+	public Long parseLong(String value, long defVal) {
+		
+        if (value == null){
+    	  log.info("")
+    	return defVal;
+    }
+    try {
+    return Long.parseLong(value);
+    }
+    catch (NumberFormatException e) {
+    
+    return defVal;
+
+
+    }
+    }
+
+
 
     /**
      * To read the jasypt key from jasypt.key file

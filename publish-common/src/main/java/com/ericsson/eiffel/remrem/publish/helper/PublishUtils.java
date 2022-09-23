@@ -39,12 +39,9 @@ public class PublishUtils {
                     return service;
                 }
             }
-        }
-        else {
+        } else {
             for (MsgService service : msgServices) {
-                //if (service instanceof SemanticsService) {
                     return service;
-               // }
             }
         }
         log.error("No protocol service has been found registered.");
